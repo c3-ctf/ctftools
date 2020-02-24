@@ -1,0 +1,10 @@
+[submodule "xorcrypt"]
+	path = xorcrypt
+	url = https://github.com/c3-ctf/xorcrypt.git
+[submodule "debruijn"]
+	path = debruijn
+	url = https://github.com/c3-ctf/debruijn.git
+[submodule "hashcat"]
+	shallow = true
+	path = hashcat
+	url = https://github.com/hashcat/hashcat.git
