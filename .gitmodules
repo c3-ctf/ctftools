@@ -8,3 +8,6 @@
 	shallow = true
 	path = hashcat
 	url = https://github.com/hashcat/hashcat.git
+[submodule "portapty"]
+	path = portapty
+	url = https://github.com/c3-ctf/portapty
