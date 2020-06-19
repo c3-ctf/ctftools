@@ -36,18 +36,27 @@ then
   IS_KALI="yes"
 fi
 
+if [ -z $IS_KALI ] && [ -z "$(apt-cache policy | grep metasploit)" ]
+then
+  echo "Adding Metasploit repo"
+  echo deb https://apt.metasploit.com/ lucid main | sudo tee /etc/apt/sources.list.d/metasploit-framework.list > /dev/null
+  curl https://apt.metasploit.com/metasploit-framework.gpg.key | sudo apt-key add
+  sudo apt-get update
+fi
+
+
 EXPECTED_TOOLS=
 BASE_INSTALL=
 KALI_INSTALL=
 
 check_base() {
   EXPECTED_TOOLS="$1 $EXPECTED_TOOLS"
-  if [ ! -x "$(command -v $1)" ]; then TO_INSTALL="$2 $BASE_INSTALL"; fi
+  if [ ! -x "$(command -v $1)" ]; then BASE_INSTALL="$2 $BASE_INSTALL"; fi
 }
 
 check_kali() {
   EXPECTED_TOOLS="$1 $EXPECTED_TOOLS"
-  if [ ! -x "$(command -v $1)" ]; then TO_INSTALL="$2 $KALI_INSTALL"; fi
+  if [ ! -x "$(command -v $1)" ]; then KALI_INSTALL="$2 $KALI_INSTALL"; fi
 }
 
 check_base openvpn openvpn
@@ -56,15 +65,7 @@ check_kali wfuzz wfuzz
 check_kali hashcat hashcat
 check_kali wordlists wordlists
 
-if [ -z $IS_KALI ] && [ -z "$(apt-cache policy | grep metasploit-framework)" ]
-then
-  echo "Adding Metasploit repo"
-  echo deb https://apt.metasploit.com/ lucid main | sudo tee /etc/apt/sources.list.d/metasploit-framework.list > /dev/null
-  curl https://apt.metasploit.com/metasploit-framework.gpg.key | sudo apt-key add
-  sudo apt-get update
-  check_base metasploit-framework
-fi
-
+if [ -z $IS_KALI]; then check_base metasploit-framework; fi
 
 if [ ! -z "$BASE_INSTALL$KALI_INSTALL" ]
 then
