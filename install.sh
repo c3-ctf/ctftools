@@ -65,7 +65,7 @@ check_kali wfuzz wfuzz
 check_kali hashcat hashcat
 check_kali wordlists wordlists
 
-if [ -z $IS_KALI]; then check_base metasploit-framework; fi
+if [ -z $IS_KALI]; then check_base msfconsole metasploit-framework; fi
 
 if [ ! -z "$BASE_INSTALL$KALI_INSTALL" ]
 then
