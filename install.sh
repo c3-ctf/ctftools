@@ -3,6 +3,9 @@
 echo Checking for kali repos
 sudo apt-get update
 
+# We need this to add repos
+sudo apt-get install gpg -y
+
 if [ -z "$(apt-cache policy | grep kali-rolling)" ]
 then
   echo Adding kali repos
@@ -15,7 +18,7 @@ Pin: release o=kali
 Pin-Priority: -10
 EOF
   # Add the key
-  wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add
+  curl https://archive.kali.org/archive-key.asc | sudo apt-key add
   sudo apt-get update
 fi
 
@@ -49,7 +52,7 @@ if [ -z $IS_KALI ] && [ -z "$(apt-cache policy | grep metasploit-framework)" ]
 then
   echo "Adding Metasploit repo"
   echo deb https://downloads.metasploit.com/data/releases/metasploit-framework/apt lucid main | sudo tee /etc/apt/sources.list.d/metasploit-framework.list > /dev/null
-  wget -q -O - https://downloads.metasploit.com/data/releases/metasploit-framework/apt | sudo apt-key add
+  curl https://downloads.metasploit.com/data/releases/metasploit-framework/metasploit-framework.gpg.key | sudo apt-key add
   sudo apt-get update
   check_base metasploit-framework
 fi
