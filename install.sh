@@ -7,6 +7,12 @@ sudo apt-get update
 sudo apt-get install gpg -y
 sudo mkdir -p /etc/apt/sources.list.d/
 
+if [ ! -x "$(command -v sudo)" ]
+then
+  alias sudo=""
+  echo "WARNING: sudo disabled!"
+fi
+
 if [ -z "$(apt-cache policy | grep kali-rolling)" ]
 then
   echo Adding kali repos
