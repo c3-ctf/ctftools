@@ -2,33 +2,35 @@
 
 if [ ! -x "$(command -v sudo)" ]
 then
-  alias sudo=""
+  SUDO=""
   echo "WARNING: sudo disabled!"
+else
+  SUDO="sudo"
 fi
 
 echo "Updating repos"
-sudo apt-get -qq update
-sudo apt-get -q upgrade -y
+$SUDO apt-get -qq update
+$SUDO apt-get -q upgrade -y
 
 # We need this to add repos
-sudo apt-get -qq install gpg lsb-release -y
-sudo mkdir -p /etc/apt/sources.list.d/
+$SUDO apt-get -qq install gpg lsb-release -y
+$SUDO mkdir -p /etc/apt/sources.list.d/
 
 echo Checking for kali repos
 if [ -z "$(apt-cache policy | grep kali-rolling)" ]
 then
   echo "Adding Kali repos"
 
-  echo deb https://archive-4.kali.org/kali kali-rolling main contrib non-free | sudo tee /etc/apt/sources.list.d/kali.list > /dev/null
+  echo deb https://archive-4.kali.org/kali kali-rolling main contrib non-free | $SUDO tee /etc/apt/sources.list.d/kali.list > /dev/null
   # This means that you have to manually select the packages
-  cat << 'EOF' | sudo tee /etc/apt/preferences > /dev/null
+  cat << 'EOF' | $SUDO tee /etc/apt/preferences > /dev/null
 Package: *
 Pin: release o=kali
 Pin-Priority: -10
 EOF
   # Add the key
-  curl -s https://archive.kali.org/archive-key.asc | sudo apt-key add > /dev/null 2>/dev/null
-  sudo apt-get update > /dev/null
+  curl -s https://archive.kali.org/archive-key.asc | $SUDO apt-key add > /dev/null 2>/dev/null
+  $SUDO apt-get update > /dev/null
 else
   echo "Kali repos found"
 fi
@@ -44,18 +46,18 @@ if [ ! -z $IS_KALI ]; then OS_NAME="debian"; OS_RELEASE="sid"; else OS_NAME="$(l
 if [ -z $IS_KALI ] && [ -z "$(apt-cache policy | grep metasploit)" ]
 then
   echo "Adding Metasploit repo"
-  echo deb https://apt.metasploit.com/ lucid main | sudo tee /etc/apt/sources.list.d/metasploit-framework.list > /dev/null
-  curl -s https://apt.metasploit.com/metasploit-framework.gpg.key | sudo apt-key add > /dev/null 2>/dev/null
-  sudo apt-get update > /dev/null
+  echo deb https://apt.metasploit.com/ lucid main | $SUDO tee /etc/apt/sources.list.d/metasploit-framework.list > /dev/null
+  curl -s https://apt.metasploit.com/metasploit-framework.gpg.key | $SUDO apt-key add > /dev/null 2>/dev/null
+  $SUDO apt-get update > /dev/null
 fi
 
 if [ -z "$(apt-cache policy | grep docker)" ]
 then
   if [ "$OS_RELEASE" = "sid" ]; then DOCKER_RELEASE="buster"; else DOCKER_RELEASE="$OS_RELEASE"; fi
   echo "Installing Docker repo"
-  curl -s -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - > /dev/null 2>/dev/null
-  echo "deb [arch=amd64] https://download.docker.com/linux/$OS_NAME $DOCKER_RELEASE stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt-get update > /dev/null
+  curl -s -fsSL https://download.docker.com/linux/debian/gpg | $SUDO apt-key add - > /dev/null 2>/dev/null
+  echo "deb [arch=amd64] https://download.docker.com/linux/$OS_NAME $DOCKER_RELEASE stable" | $SUDO tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $SUDO apt-get update > /dev/null
 fi
 
 
@@ -83,11 +85,11 @@ check_cmd() {
   EXPECTED_TOOLS="$1 $EXPECTED_TOOLS"
   if [ ! -x "$(command -v $1)" ]
   then
-    sudo tee "/usr/local/bin/$1" > /dev/null << EOF
+    $SUDO tee "/usr/local/bin/$1" > /dev/null << EOF
 #!/bin/sh
 $2
 EOF
-    sudo chmod +x "/usr/local/bin/$1"
+    $SUDO chmod +x "/usr/local/bin/$1"
 fi
 }
 
@@ -122,8 +124,6 @@ check_base g++ g++
 check_base git git
 check_base make build-essential
 check_base docker docker-ce
-# Remove docker from debian base repos in install
-BASE_INSTALL="docker.io- BASE_INSTALL"
 check_base pip3 python3-pip
 check_base jq jq
 
@@ -147,18 +147,19 @@ if [ -z $IS_KALI ]; then check_base msfconsole metasploit-framework; fi
 if [ ! -z "$BASE_INSTALL" ]
 then
   echo "Installing missing base packages $BASE_INSTALL"
-  sudo apt-get -qq install $BASE_INSTALL -y
+  # Remove docker from debian base repos in install
+  $SUDO apt-get -qq install $BASE_INSTALL docker.io- -y
 fi
 
 if [ ! -z "$KALI_INSTALL" ]
 then
   echo "Installing missing Kali packages: $KALI_INSTALL"
-  sudo apt-get -qq install $KALI_INSTALL -y -t kali-rolling
+  $SUDO apt-get -qq install $KALI_INSTALL -y -t kali-rolling
 fi
 if [ ! -z "$PIP_INSTALL" ]
 then
   echo "You are missing some python packages"
-  sudo python3 -m pip -qqq install $PIP_INSTALL
+  $SUDO python3 -m pip -qqq install $PIP_INSTALL
 fi
 
 # clone_source and check_docker need to be done *after* docker and git are instaleld
@@ -177,8 +178,8 @@ then
   echo "Cutter already up to date!"
 else
   echo "Installing Cutter"
-  cat "$target" | jq '.assets | .[] | .browser_download_url' | grep AppImage | xargs sudo curl -s -L -o /usr/local/bin/cutter
-  sudo chmod +x /usr/local/bin/cutter
+  cat "$target" | jq '.assets | .[] | .browser_download_url' | grep AppImage | xargs $SUDO curl -s -L -o /usr/local/bin/cutter
+  $SUDO chmod +x /usr/local/bin/cutter
 fi
 rm "$target"
 
