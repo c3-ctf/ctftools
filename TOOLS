@@ -1,17 +1,16 @@
-| tool | description |
-| `cutter` | A reverse engineering tool, based on radare2 |
-| `sherlock` | An OSINT tool, searches for usernames |
-| `msfconsole` | metasploit needs no introduction |
-| `steghide` | Common steganography tool |
-| `john` | cpu password cracker, more flexible than hashcat, but slower |
-| `wordlists` | kali default wordlists, in `/usr/share/wordlists` |
-| `wfuzz` | flexible fuzzer and directory/subdomain brute forcer |
-| `openvpn` | common vpn software |
-| `nmap` | port scanner |
-| `torbrowser-launcher` | tor browser needs no introduction |
-| `tor` | Used for routing other traffic through the Tor network |
-| `nano` | handy text editor |
-| `jq` | command line json manipulation |
-| `python3-pip` | python package manager |
-| `docker-ce` | docker container manager, used for creating test environemnts |
-| `make`, `cmake`, `git`, `g++`, `gcc`, `cmake` | used for building C/C++ packages |
+| tool         | description                                                 |
+| ------------ | ----------------------------------------------------------- |
+| `cutter`     | A reverse engineering tool, based on radare2                |
+| `sherlock`   | An OSINT tool, searches for usernames                       |
+| `msfconsole` | metasploit needs no introduction                            |
+| `steghide`   | Common steganography tool                                   |
+| `john`       | Flexible CPU password cracker                               |
+| `wordlists`  | kali default wordlists, in `/usr/share/wordlists`           |
+| `wfuzz`      | flexible fuzzer and directory/subdomain brute forcer        |
+| `openvpn`    | common vpn software                                         |
+| `nmap`       | port scanner                                                |
+| `tor`        | Used for routing other traffic through the Tor network      |
+| `nano`       | handy text editor                                           |
+| `jq`         | command line json manipulation                              |
+| `pip3`       | python package manager                                      |
+| `docker`     | docker containers, used for creating test environemnts      |
