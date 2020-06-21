@@ -139,7 +139,7 @@ check_kali wordlists wordlists
 check_kali john john # Debian main has it, but it is the old version (as usual!)
 check_kali steghide steghide
 
-if [ -z $IS_KALI]; then check_base msfconsole metasploit-framework; fi
+if [ -z $IS_KALI ]; then check_base msfconsole metasploit-framework; fi
 
 if [ ! -z $BASE_INSTALL ]
 then
