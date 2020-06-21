@@ -63,17 +63,33 @@ fi
 
 EXPECTED_TOOLS=
 BASE_INSTALL=
+BACK_INSTALL=
 KALI_INSTALL=
+BACKPORT_INSTALL=
 PIP_INSTALL=
 
 check_base() {
   EXPECTED_TOOLS="$1 $EXPECTED_TOOLS"
-  if [ ! -x "$(command -v $1)" ]; then BASE_INSTALL="$2 $BASE_INSTALL"; fi
+  if [ ! -x "$(command -v $1)" ] && ! dpkg -l $2 > /dev/null 2> /dev/null
+  then
+    BASE_INSTALL="$2 $BASE_INSTALL"
+  fi
+}
+
+check_back() {
+  EXPECTED_TOOLS="$1 $EXPECTED_TOOLS"
+  if [ ! -x "$(command -v $1)" ] && ! dpkg -l $2 > /dev/null 2> /dev/null
+  then
+    BACK_INSTALL="$2 $BACK_INSTALL"
+  fi
 }
 
 check_kali() {
   EXPECTED_TOOLS="$1 $EXPECTED_TOOLS"
-  if [ ! -x "$(command -v $1)" ]; then KALI_INSTALL="$2 $KALI_INSTALL"; fi
+  if [ ! -x "$(command -v $1)" ] && ! dpkg -l $2 > /dev/null 2> /dev/null
+  then
+    KALI_INSTALL="$2 $KALI_INSTALL"
+  fi
 }
 
 check_pip() {
@@ -130,7 +146,7 @@ check_base jq jq
 # Nice stuff
 check_base nano nano
 check_base tor tor
-check_base torbrowser-launcher torbrowser-launcher
+check_back torbrowser-launcher torbrowser-launcher
 
 # Toolz
 check_base nmap nmap
@@ -144,6 +160,30 @@ check_kali steghide steghide
 
 if [ -z $IS_KALI ]; then check_base msfconsole metasploit-framework; fi
 
+if [ ! -z "$BACK_INSTALL" ]
+then
+  case "$OS_RELEASE" in
+  stretch)
+    echo "Adding stretch backports"
+    BACK_OPTS="-t stretch-backports"
+    cat < 'EOF' | $SUDO tee /etc/apt/sources.list.d/stretch-backports.list > /dev/null
+deb http://deb.debian.org/debian stretch-backports main contrib
+deb http://deb.debian.org/debian stretch-backports-sloppy main contrib
+EOF
+    $SUDO apt-get update
+    ;;
+  buster)
+    echo "Adding buster backports"
+    BACK_OPTS="-t buster-backports"
+    echo "$deb http://deb.debian.org/debian buster-backports main contrib non-free" | $SUDO tee /etc/apt/sources.list.d/buster-backports.list
+    $SUDO apt-get update
+    ;;
+  *)
+    BASE_INSTALL="$BASE_INSTALL $BACK_INSTALL"
+    ;;
+  esac
+fi
+
 if [ ! -z "$BASE_INSTALL" ]
 then
   echo "Installing missing base packages $BASE_INSTALL"
@@ -151,11 +191,18 @@ then
   $SUDO apt-get -qq install $BASE_INSTALL docker.io- -y
 fi
 
+if [ ! -z "$BACK_OPTS" ]
+then
+  echo "Installing missing backports packages $BACK_INSTALL"
+  apt-get -qq install $BACK_INSTALL $BACK_OPTS
+fi
+
 if [ ! -z "$KALI_INSTALL" ]
 then
   echo "Installing missing Kali packages: $KALI_INSTALL"
   $SUDO apt-get -qq install $KALI_INSTALL -y -t kali-rolling
 fi
+
 if [ ! -z "$PIP_INSTALL" ]
 then
   echo "You are missing some python packages"
