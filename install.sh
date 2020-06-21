@@ -39,6 +39,8 @@ then
   IS_KALI="yes"
 fi
 
+if [ ! -z $IS_KALI ]; then OS_NAME="debian"; OS_RELEASE="sid"; else OS_NAME="$(lsb_release -is | awk '{print tolower($0)}')"; OS_RELEASE="$(lsb_release -cs)"; fi
+
 if [ -z $IS_KALI ] && [ -z "$(apt-cache policy | grep metasploit)" ]
 then
   echo "Adding Metasploit repo"
@@ -49,9 +51,10 @@ fi
 
 if [ -z "$(apt-cache policy | grep docker)" ]
 then
+  if [ "$OS_RELEASE" = "sid" ]; then DOCKER_RELEASE="buster"; else DOCKER_RELEASE="$OS_RELEASE"; fi
   echo "Installing Docker repo"
   curl -s -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - > /dev/null 2>/dev/null
-  echo "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | awk '{print tolower($0)}') $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  echo "deb [arch=amd64] https://download.docker.com/linux/$OS_NAME $DOCKER_RELEASE stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-get update > /dev/null
 fi
 
@@ -141,7 +144,7 @@ check_kali steghide steghide
 
 if [ -z $IS_KALI ]; then check_base msfconsole metasploit-framework; fi
 
-if [ ! -z $BASE_INSTALL ]
+if [ ! -z "$BASE_INSTALL" ]
 then
   echo "Installing missing base packages $BASE_INSTALL"
   sudo apt-get -qq install $BASE_INSTALL -y
@@ -182,5 +185,4 @@ rm "$target"
 echo "You now have up-to-date versions of:"
 echo "        $EXPECTED_TOOLS"
 
-curl -s -s https://raw.githubusercontent.com/c3-ctf/ctftools/master/TOOLS
-
+curl -s https://raw.githubusercontent.com/c3-ctf/ctftools/master/TOOLS
