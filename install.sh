@@ -46,7 +46,7 @@ if [ ! -z $IS_KALI ]; then OS_NAME="debian"; OS_RELEASE="sid"; else OS_NAME="$(l
 if [ -z $IS_KALI ] && [ -z "$(apt-cache policy | grep metasploit)" ]
 then
   echo "Adding Metasploit repo"
-  echo deb https://apt.metasploit.com/ lucid main | $SUDO tee /etc/apt/sources.list.d/metasploit-framework.list > /dev/null
+  echo "deb https://apt.metasploit.com/ lucid main" | $SUDO tee /etc/apt/sources.list.d/metasploit-framework.list > /dev/null
   curl -s https://apt.metasploit.com/metasploit-framework.gpg.key | $SUDO apt-key add > /dev/null 2>/dev/null
   $SUDO apt-get update > /dev/null
 fi
@@ -175,7 +175,7 @@ EOF
   buster)
     echo "Adding buster backports"
     BACK_OPTS="-t buster-backports"
-    echo "$deb http://deb.debian.org/debian buster-backports main contrib non-free" | $SUDO tee /etc/apt/sources.list.d/buster-backports.list
+    echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" | $SUDO tee /etc/apt/sources.list.d/buster-backports.list
     $SUDO apt-get update
     ;;
   *)
