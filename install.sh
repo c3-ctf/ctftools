@@ -204,6 +204,9 @@ then
   $SUDO apt-get -qq install $KALI_INSTALL -y -t kali-rolling
 fi
 
+# Pip ins needed
+check_pip shodan shodan
+
 if [ ! -z "$PIP_INSTALL" ]
 then
   echo "You are missing some python packages"
