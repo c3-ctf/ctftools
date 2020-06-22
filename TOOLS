@@ -5,6 +5,7 @@
 | `msfconsole` | metasploit needs no introduction                            |
 | `steghide`   | Common steganography tool                                   |
 | `john`       | Flexible CPU password cracker                               |
+| `hashcat`    | Fast GPU hash cracker                                       |
 | `wordlists`  | kali default wordlists, in `/usr/share/wordlists`           |
 | `wfuzz`      | flexible fuzzer and directory/subdomain brute forcer        |
 | `openvpn`    | common vpn software                                         |
