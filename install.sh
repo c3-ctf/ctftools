@@ -155,6 +155,7 @@ check_base wfuzz wfuzz
 
 check_kali hashcat hashcat
 check_kali wordlists wordlists
+check_kali seclists seclists
 check_kali john john # Debian main has it, but it is the old version (as usual!)
 check_kali steghide steghide
 
