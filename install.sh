@@ -152,6 +152,8 @@ check_back torbrowser-launcher torbrowser-launcher
 check_base nmap nmap
 check_base openvpn openvpn
 check_base wfuzz wfuzz
+check_base file file
+check_base binwalk binwalk
 
 check_kali hashcat hashcat
 check_kali wordlists wordlists

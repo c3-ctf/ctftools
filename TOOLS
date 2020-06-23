@@ -15,3 +15,5 @@
 | `jq`         | command line json manipulation                              |
 | `pip3`       | python package manager                                      |
 | `docker`     | docker containers, used for creating test environemnts      |
+| `file`       | Used to identify what a file is                             |
+| `binwalk`    | A lot deeper than file, but less flexible                   |
