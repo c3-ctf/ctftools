@@ -1,20 +1,22 @@
-| tool         | description                                                 |
-| ------------ | ----------------------------------------------------------- |
-| `cutter`     | A reverse engineering tool, based on radare2                |
-| `sherlock`   | An OSINT tool, searches for usernames                       |
-| `msfconsole` | metasploit needs no introduction                            |
-| `steghide`   | Common steganography tool                                   |
-| `exiftool`   | Gives some data about the environment a photo was taken in  |
-| `john`       | Flexible CPU password cracker                               |
-| `hashcat`    | Fast GPU hash cracker                                       |
-| `wordlists`  | kali default wordlists, in `/usr/share/wordlists`           |
-| `wfuzz`      | flexible fuzzer and directory/subdomain brute forcer        |
-| `openvpn`    | common vpn software                                         |
-| `nmap`       | port scanner                                                |
-| `tor`        | Used for routing other traffic through the Tor network      |
-| `nano`       | handy text editor                                           |
-| `jq`         | command line json manipulation                              |
-| `pip3`       | python package manager                                      |
-| `docker`     | docker containers, used for creating test environemnts      |
-| `file`       | Used to identify what a file is                             |
-| `binwalk`    | A lot deeper than file, but less flexible                   |
+| tool          | description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| `cutter`      | A reverse engineering tool, based on radare2                |
+| `sherlock`    | An OSINT tool, searches for usernames                       |
+| `msfconsole`  | metasploit needs no introduction                            |
+| `steghide`    | Common steganography tool                                   |
+| `exiftool`    | Gives some data about the environment a photo was taken in  |
+| `john`        | Flexible CPU password cracker                               |
+| `hashcat`     | Fast GPU hash cracker                                       |
+| `wordlists`   | kali default wordlists, in `/usr/share/wordlists`           |
+| `wfuzz`       | flexible fuzzer and directory/subdomain brute forcer        |
+| `openvpn`     | common vpn software                                         |
+| `nmap`        | port scanner                                                |
+| `tor`         | Used for routing other traffic through the Tor network      |
+| `nano`        | handy text editor                                           |
+| `jq`          | command line json manipulation                              |
+| `pip3`        | python package manager                                      |
+| `docker`      | docker containers, used for creating test environemnts      |
+| `file`        | Used to identify what a file is                             |
+| `binwalk`     | A lot deeper than file, but less flexible                   |
+| `nc`          | Netcat, allows simple port binding and connection           |
+| `aircarck-ng` | Wifi hacking                                                |
