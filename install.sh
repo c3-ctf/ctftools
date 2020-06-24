@@ -154,6 +154,7 @@ check_base openvpn openvpn
 check_base wfuzz wfuzz
 check_base file file
 check_base binwalk binwalk
+check_base exiftool exiftool
 
 check_kali hashcat hashcat
 check_kali wordlists wordlists
