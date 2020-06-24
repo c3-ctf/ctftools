@@ -4,6 +4,7 @@
 | `sherlock`   | An OSINT tool, searches for usernames                       |
 | `msfconsole` | metasploit needs no introduction                            |
 | `steghide`   | Common steganography tool                                   |
+| `exiftool`   | Gives some data about the environment a photo was taken in  |
 | `john`       | Flexible CPU password cracker                               |
 | `hashcat`    | Fast GPU hash cracker                                       |
 | `wordlists`  | kali default wordlists, in `/usr/share/wordlists`           |
